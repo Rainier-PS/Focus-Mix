@@ -3,38 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <!-- SEO title (60–65 characters) -->
   <title>Focus Mix — Quick Allergy Test & Personalized Snack Recommendations</title>
 
-  <!-- Meta description (155–160 characters) -->
   <meta name="description" content="Take the Focus Mix quick allergy screening and get personalized snack recommendations tailored to your needs." />
 
-  <!-- Keywords (optional but useful for niche targeting) -->
   <meta name="keywords" content="allergy test, snack recommendation, healthy snacks, Focus Mix" />
 
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://yourdomain.com/" />
+  <link rel="canonical" href="https://rainier-ps.github.io/Focus-Mix/" />
 
-  <!-- Favicon -->
   <link rel="icon" href="/favicon.ico" />
 
-  <!-- Open Graph / Facebook -->
   <meta property="og:title" content="Focus Mix — Quick Allergy Test & Personalized Snack Recommendations" />
   <meta property="og:description" content="Fast, easy allergy screening with personalized snack suggestions. Try Focus Mix now." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://yourdomain.com/" />
+  <meta property="og:url" content="https://rainier-ps.github.io/Focus-Mix/" />
   <meta property="og:image" content="https://yourdomain.com/preview.jpg" />
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Focus Mix — Quick Allergy Test & Personalized Snack Recommendations" />
   <meta name="twitter:description" content="Fast, easy allergy screening with personalized snack suggestions. Try Focus Mix now." />
   <meta name="twitter:image" content="https://yourdomain.com/preview.jpg" />
 
-  <!-- Tailwind Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Tailwind config for rounded, shadows, and dark mode using class strategy
     tailwind.config = {
       darkMode: 'class',
       theme: {
@@ -46,18 +37,41 @@
     }
   </script>
   <style>
-    /* small extra styles for accessibility visuals */
     .rating-radio:focus + label { outline: 3px solid rgba(99,102,241,0.25); }
     .sr-only-focusable:focus:not(:focus-visible) { outline: none; }
+
+    
+    .btn-animate {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-animate:hover {
+      transform: translateY(-1px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+    }
+
+    .btn-animate:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+    }
   </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen flex items-center justify-center p-4">
   <main class="w-full max-w-2xl">
     <section class="bg-white dark:bg-gray-900 rounded-2xl shadow-soft p-6 md:p-8">
-      <header class="flex items-start justify-between gap-4">
+    <header class="flex flex-col gap-4">
+      <img 
+        src="https://raw.githubusercontent.com/Rainier-PS/Focus-Mix/main/images/site/Trail%20Mix%20Banner.jpg" 
+        alt="Focus Mix Banner" 
+        class="w-full h-32 object-cover rounded-xl"
+      />
+
+      <div class="flex items-start justify-between gap-4">
         <div>
           <h1 class="text-2xl md:text-3xl font-semibold">Focus Mix — Quick Match</h1>
-          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Complete a short, safe test and get a personalized trail-mix recommendation.</p>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            Complete a short, safe test and get a personalized trail-mix recommendation.
+          </p>
         </div>
         <div class="flex items-center gap-2">
           <button id="themeToggle" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none" aria-pressed="false">
@@ -65,10 +79,11 @@
             <span class="text-sm">Theme</span>
           </button>
         </div>
-      </header>
+      </div>
+    </header>
+
 
       <form id="mixForm" class="mt-6 grid gap-6" novalidate>
-        <!-- Allergy screening -->
         <fieldset class="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl" aria-labelledby="allergyLegend">
           <h3 id="allergyLegend" class="text-lg font-medium mb-2">
             Allergy screening 
@@ -99,10 +114,13 @@
               <input type="checkbox" id="noAllergies" name="allergies" value="none" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
               <span>No allergies</span>
             </label>
+
+            <p id="allergyNotice" class="text-sm text-red-600 dark:text-red-400 mt-2 hidden">
+              Please complete the allergy screening to continue.
+            </p>
           </div>
         </fieldset>
 
-        <!-- Ratings -->
         <fieldset class="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl" aria-labelledby="ratingLegend">
           <h3 id="ratingLegend" class="font-medium">Quick self-rating</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -110,7 +128,6 @@
           </p>
 
           <div class="mt-4 grid gap-4">
-            <!-- Energy -->
             <div>
               <label class="block text-sm font-medium">Energy</label>
               <div class="flex items-center gap-2 mt-2">
@@ -120,7 +137,6 @@
               <div class="mt-2" id="energyRadios"></div>
             </div>
 
-            <!-- Focus -->
             <div>
               <label class="block text-sm font-medium">Focus</label>
               <div class="flex items-center gap-2 mt-2">
@@ -130,7 +146,6 @@
               <div class="mt-2" id="focusRadios"></div>
             </div>
 
-            <!-- Mood -->
             <div>
               <label class="block text-sm font-medium">Mood</label>
               <div class="flex items-center gap-2 mt-2">
@@ -143,12 +158,17 @@
         </fieldset>
 
         <div class="flex gap-3 items-center">
-          <button type="submit" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">Get Recommendation</button>
-          <button type="button" id="resetBtn" class="px-3 py-2 rounded-xl border dark:border-gray-700 text-sm">Reset</button>
+          <button id="submitBtn" type="submit" disabled
+            class="btn-animate inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl 
+                  bg-indigo-400 text-white cursor-not-allowed 
+                  disabled:opacity-60 disabled:cursor-not-allowed 
+                  hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            Get Recommendation
+          </button>
+          <button type="button" id="resetBtn" class="btn-animate px-3 py-2 rounded-xl border dark:border-gray-700 text-sm">Reset</button>
         </div>
       </form>
 
-      <!-- Result area -->
       <div id="result" class="mt-6 hidden">
         <div class="rounded-xl p-4 bg-gradient-to-r from-white to-gray-50 dark:from-gray-900 dark:to-gray-900/60 border dark:border-gray-800 shadow-sm">
           <h2 class="text-lg font-semibold" id="resultTitle">Your Recommendation</h2>
@@ -164,8 +184,8 @@
               <h3 class="font-medium">Why this fits</h3>
               <p class="mt-1 text-sm text-gray-600 dark:text-gray-400" id="variantWhy"></p>
               <div class="mt-3 flex gap-2">
-                <button id="copyBtn" class="px-3 py-1 rounded-lg border text-sm">Copy recipe</button>
-                <button id="saveBtn" class="px-3 py-1 rounded-lg border text-sm">Save to local data</button>
+                <button id="copyBtn" class="btn-animate px-3 py-1 rounded-lg border text-sm">Copy recipe</button>
+                <button id="saveBtn" class="btn-animate px-3 py-1 rounded-lg border text-sm">Save to local data</button>
               </div>
             </div>
           </div>
@@ -173,7 +193,6 @@
           <div class="mt-4 text-sm text-gray-500">You can show this recommendation to the volunteers preparing your snack bags. Allergen-safe alternatives will be used where necessary.</div>
         </div>
 
-        <!-- aggregate stats -->
         <div class="mt-4 p-4 rounded-xl bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-sm">
           <h3 class="font-medium">Festival summary (local)</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">This panel shows aggregate results stored on this device (localStorage).</p>
@@ -182,7 +201,7 @@
             <div id="avgScores"></div>
           </div>
           <div class="mt-3 flex gap-2">
-            <button id="clearData" class="px-3 py-1 rounded-lg border text-sm">Clear data</button>
+            <button id="clearData" class="btn-animate px-3 py-1 rounded-lg border text-sm">Clear data</button>
           </div>
         </div>
       </div>
@@ -190,19 +209,16 @@
     <footer class="text-center text-xs text-gray-500 dark:text-gray-400 mt-4">Not medical advice. For demonstration and educational purposes.</footer>
   </main>
 
-  <!-- Back to Top button -->
   <button id="backToTop"
-    class="hidden fixed bottom-6 right-6 w-12 h-12 flex items-center justify-center rounded-full bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 dark:bg-gray-700 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+    class="btn-animate hidden fixed bottom-6 right-6 w-12 h-12 flex items-center justify-center rounded-full bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 dark:bg-gray-700 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-400"
     aria-label="Back to top">
     ↑
   </button>
 
   <script>
-    // ---------- Utility & Accessibility Helpers ----------
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-    // Theme: respect system, allow toggle
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     const root = document.documentElement;
     function applyInitialTheme() {
@@ -224,7 +240,6 @@
       $('#themeToggle').setAttribute('aria-pressed', isDark);
     });
 
-    // ---------- Build rating radios dynamically ----------
     function buildRadios(containerId, name, defaultValue = 3) {
       const container = document.getElementById(containerId);
       container.innerHTML = '';
@@ -258,7 +273,6 @@
     buildRadios('focusRadios','focus',3);
     buildRadios('moodRadios','mood',3);
 
-    // ---------- Form handling & recommendation logic ----------
     const form = $('#mixForm');
     const result = $('#result');
 
@@ -369,7 +383,6 @@
       renderSummary();
     }
 
-    // ---------- Local aggregation ----------
     const STORAGE_KEY = 'focusmix-data-v1';
     function loadLocalData() {
       try {
@@ -411,7 +424,6 @@
 
     renderSummary();
 
-    // ---------- Back to Top button ----------
     const backToTop = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 200) {
@@ -444,6 +456,36 @@
           noAllergies.checked = false;
         }
       });
+    });
+
+    const submitBtn = document.getElementById("submitBtn");
+    const allergyNotice = document.getElementById("allergyNotice");
+
+    function validateAllergies() {
+      const checked = Array.from(document.querySelectorAll('input[name="allergies"]:checked'));
+      
+      if (checked.length === 0) {
+        submitBtn.disabled = true;
+        allergyNotice.classList.remove("hidden");
+        return false;
+      }
+
+      if (checked.some(c => c.value === "none") && checked.length > 1) {
+        submitBtn.disabled = true;
+        allergyNotice.textContent = "Please choose either 'No allergies' or specific allergies, not both.";
+        allergyNotice.classList.remove("hidden");
+        return false;
+      }
+
+      submitBtn.disabled = false;
+      allergyNotice.classList.add("hidden");
+      allergyNotice.textContent = "Please complete the allergy screening to continue.";
+      return true;
+    }
+
+    validateAllergies();
+    $$('input[name="allergies"]').forEach(input => {
+      input.addEventListener("change", validateAllergies);
     });
   </script>
 </body>
