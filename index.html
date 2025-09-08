@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Focus Mix — Quick Allergy Test & Personalized Snack Recommendations</title>
+  <title>Nutri Mix — Quick Allergy Test & Personalized Snack Recommendations</title>
 
-  <meta name="description" content="Take the Focus Mix quick allergy screening and get personalized snack recommendations tailored to your needs." />
+  <meta name="description" content="Take the Nutri Mix quick allergy screening and get personalized snack recommendations tailored to your needs." />
 
   <meta name="keywords" content="allergy test, snack recommendation, healthy snacks, Focus Mix" />
 
@@ -37,22 +37,35 @@
     }
   </script>
   <style>
-    .rating-radio:focus + label { outline: 3px solid rgba(99,102,241,0.25); }
-    .sr-only-focusable:focus:not(:focus-visible) { outline: none; }
-
-    
+    .rating-radio:focus + label {
+      outline: 3px solid rgba(99,102,241,0.25);
+    }
     .btn-animate {
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-
     .btn-animate:hover {
       transform: translateY(-1px) scale(1.03);
-      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+      box-shadow: 0 8px 20px rgba(99,102,241,0.25);
     }
-
     .btn-animate:active {
       transform: translateY(0) scale(0.98);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+      box-shadow: 0 4px 12px rgba(99,102,241,0.15);
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      opacity: 1;
+      background: transparent;
+      filter: invert(0);
+    }
+
+    .dark input[type="number"]::-webkit-inner-spin-button,
+    .dark input[type="number"]::-webkit-outer-spin-button {
+      filter: invert(1);
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
     }
   </style>
 </head>
@@ -68,7 +81,7 @@
 
       <div class="flex items-start justify-between gap-4">
         <div>
-          <h1 class="text-2xl md:text-3xl font-semibold">Focus Mix — Quick Match</h1>
+          <h1 class="text-2xl md:text-3xl font-semibold">Nutri Mix — Quick Match</h1>
           <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             Complete a short, safe test and get a personalized trail-mix recommendation.
           </p>
@@ -104,19 +117,15 @@
             </label>
             <label class="inline-flex items-center gap-2">
               <input type="checkbox" name="allergies" value="driedfruit" class="allergy h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-              <span>Dried fruit</span>
+              <span>Dried fruit (cranberries)</span>
             </label>
             <label class="inline-flex items-center gap-2">
-              <input type="checkbox" name="allergies" value="matcha" class="allergy h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-              <span>Matcha / Caffeine</span>
-            </label>
-            <label class="inline-flex items-center gap-2 col-span-full">
               <input type="checkbox" id="noAllergies" name="allergies" value="none" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
               <span>No allergies</span>
             </label>
 
             <p id="allergyNotice" class="text-sm text-red-600 dark:text-red-400 mt-2 hidden">
-              Please complete the allergy screening to continue.
+              *Please complete the allergy screening to continue.
             </p>
           </div>
         </fieldset>
@@ -179,14 +188,14 @@
               <h3 class="font-medium">Mix Variant</h3>
               <p class="mt-1 text-sm" id="variantName"></p>
               <ul class="mt-2 text-sm list-disc list-inside text-gray-600 dark:text-gray-400" id="variantIngredients"></ul>
+              <div class="mt-3 flex gap-2">
+                <button id="copyBtn" class="btn-animate px-3 py-1 rounded-lg border text-sm">Copy recipe</button>
+              </div>
             </div>
             <div class="p-4 rounded-xl bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-sm">
               <h3 class="font-medium">Why this fits</h3>
               <p class="mt-1 text-sm text-gray-600 dark:text-gray-400" id="variantWhy"></p>
-              <div class="mt-3 flex gap-2">
-                <button id="copyBtn" class="btn-animate px-3 py-1 rounded-lg border text-sm">Copy recipe</button>
-                <button id="saveBtn" class="btn-animate px-3 py-1 rounded-lg border text-sm">Save to local data</button>
-              </div>
+              
             </div>
           </div>
 
@@ -200,13 +209,26 @@
             <div id="mostCommon"></div>
             <div id="avgScores"></div>
           </div>
+        </div>
+
+        <div class="mt-4 p-4 rounded-xl bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-sm">
+          <h3 class="font-medium">Organizer Tools</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+            All entries are saved automatically in this browser.
+          </p>
           <div class="mt-3 flex gap-2">
-            <button id="clearData" class="btn-animate px-3 py-1 rounded-lg border text-sm">Clear data</button>
+            <button id="downloadCSV" class="btn-animate px-3 py-1 rounded-lg border text-sm">
+              Download CSV
+            </button>
+            <button id="clearData" class="btn-animate px-3 py-1 rounded-lg border text-sm">
+              Clear data
+            </button>
           </div>
+          <div id="ingredientCalculator" class="mt-6 p-4 bg-gray-100 dark:bg-gray-900 rounded-xl"></div>
         </div>
       </div>
     </section>
-    <footer class="text-center text-xs text-gray-500 dark:text-gray-400 mt-4">Not medical advice. For demonstration and educational purposes.</footer>
+    <footer class="text-center text-xs text-gray-500 dark:text-gray-400 mt-4">Not medical advice! For demonstration and educational purposes.</footer>
   </main>
 
   <button id="backToTop"
@@ -215,278 +237,436 @@
     ↑
   </button>
 
-  <script>
-    const $ = (sel) => document.querySelector(sel);
-    const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+<script>
+  const $ = (sel) => document.querySelector(sel);
+  const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const root = document.documentElement;
-    function applyInitialTheme() {
-      const saved = localStorage.getItem('fm-theme');
-      if (saved) {
-        if (saved === 'dark') root.classList.add('dark');
-        else root.classList.remove('dark');
-        $('#themeToggle').setAttribute('aria-pressed', saved === 'dark');
-      } else {
-        if (prefersDark) root.classList.add('dark');
-        else root.classList.remove('dark');
-        $('#themeToggle').setAttribute('aria-pressed', prefersDark);
-      }
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const root = document.documentElement;
+  function applyInitialTheme() {
+    const saved = localStorage.getItem('fm-theme');
+    if (saved) {
+      if (saved === 'dark') root.classList.add('dark');
+      else root.classList.remove('dark');
+      $('#themeToggle').setAttribute('aria-pressed', saved === 'dark');
+    } else {
+      if (prefersDark) root.classList.add('dark');
+      else root.classList.remove('dark');
+      $('#themeToggle').setAttribute('aria-pressed', prefersDark);
     }
-    applyInitialTheme();
-    $('#themeToggle').addEventListener('click', () => {
-      const isDark = root.classList.toggle('dark');
-      localStorage.setItem('fm-theme', isDark ? 'dark' : 'light');
-      $('#themeToggle').setAttribute('aria-pressed', isDark);
+  }
+  applyInitialTheme();
+  $('#themeToggle').addEventListener('click', () => {
+    const isDark = root.classList.toggle('dark');
+    localStorage.setItem('fm-theme', isDark ? 'dark' : 'light');
+    $('#themeToggle').setAttribute('aria-pressed', isDark);
+  });
+
+  function buildRadios(containerId, name, defaultValue = 3) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    for (let i=1;i<=5;i++){
+      const id = `${name}-${i}`;
+      const radio = document.createElement('input');
+      radio.type = 'radio'; radio.name = name; radio.value = String(i);
+      radio.id = id; radio.className = 'sr-only rating-radio';
+      if (i===defaultValue) radio.checked = true;
+
+      const label = document.createElement('label');
+      label.setAttribute('for', id);
+      label.className = 'inline-flex items-center justify-center w-12 h-12 mx-1 rounded-xl border dark:border-gray-700 cursor-pointer select-none transition-colors';
+      label.textContent = i;
+      label.setAttribute('aria-hidden','true');
+
+      radio.addEventListener('change', () => {
+        $(`#${name}Val`).textContent = i;
+        Array.from(container.querySelectorAll('label')).forEach(l=>l.classList.remove('bg-indigo-50','dark:bg-indigo-800','border-indigo-400'));
+        label.classList.add('bg-indigo-50','dark:bg-indigo-800','border-indigo-400');
+      });
+
+      container.appendChild(radio);
+      container.appendChild(label);
+
+      if (i===defaultValue) label.classList.add('bg-indigo-50','dark:bg-indigo-800','border-indigo-400');
+    }
+  }
+
+  buildRadios('energyRadios','energy',3);
+  buildRadios('focusRadios','focus',3);
+  buildRadios('moodRadios','mood',3);
+
+  const form = $('#mixForm');
+  const result = $('#result');
+
+  const VARIANTS = [
+    {
+      id: 'brain-boost',
+      name: 'Brain Boost',
+      ingredients: [
+        { name: 'Cashews or Almonds (source of magnesium and healthy fats)', base: 1 },
+        { name: 'Dark Chocolate (contains flavonoids and antioxidants)', base: 1 },
+        { name: 'Cranberries (rich in polyphenols and natural sugars)', base: 1 }
+      ],
+      reason: 'This mix combines flavonoids from dark chocolate, magnesium and healthy fats from nuts, and polyphenols from cranberries. Together, these nutrients may support blood flow to the brain, reduce stress, and provide antioxidants that help protect cells—supporting focus and memory.'
+    },
+    {
+      id: 'calm-focus',
+      name: 'Calm Focus',
+      ingredients: [
+        { name: 'Cashews or Almonds (magnesium helps regulate stress and nerve function)', base: 1 },
+        { name: 'Cranberries (polyphenols and natural sugars for steady energy)', base: 1 }
+      ],
+      reason: 'Magnesium from nuts contributes to nerve and muscle function while helping reduce feelings of stress. Cranberries supply polyphenols that may support memory and antioxidants that reduce oxidative stress, making this a gentle option for calm concentration.'
+    },
+    {
+      id: 'energy-kick',
+      name: 'Energy Kick',
+      ingredients: [
+        { name: 'Cashews or Almonds (healthy fats for sustained energy)', base: 1 },
+        { name: 'Cranberries (natural fruit sugars for a quick boost)', base: 1 },
+        { name: 'Dark Chocolate (mild caffeine + flavonoids for alertness)', base: 1 }
+      ],
+      reason: 'Cranberries provide quick energy through natural sugars, while nuts deliver healthy fats for longer-lasting energy. Dark chocolate adds mild caffeine and flavonoids that may enhance alertness and cognitive performance, making this a good choice when energy feels low.'
+    }
+  ];
+
+  function adjustIngredients(ingredients, allergies, scores) {
+    const { energy, focus, mood } = scores;
+    return ingredients.map(ing => {
+      let ratio = (typeof ing.base === 'number') ? ing.base : 1;
+      if (allergies.includes('nuts') && /Cashews|Almonds|Nuts/gi.test(ing.name)) {
+        ratio = 0;
+      }
+      if (allergies.includes('chocolate') && /Dark Chocolate|Chocolate/gi.test(ing.name)) {
+        ratio = 0;
+      }
+      if (allergies.includes('driedfruit') && /Cranberries|Dried fruit/gi.test(ing.name)) {
+        ratio = 0;
+      }
+      if (ratio > 0) {
+        if (/Cashews|Almonds/gi.test(ing.name)) {
+          ratio *= (0.6 + 0.12 * (6 - energy));
+        }
+        if (/Dark Chocolate|Chocolate/gi.test(ing.name)) {
+          ratio *= (0.2 + 0.2 * focus);
+        }
+        if (/Cranberries|Dried fruit/gi.test(ing.name)) {
+          ratio *= (0.5 + 0.125 * mood);
+        }
+        if (ratio < 0) ratio = 0;
+      }
+      return { name: ing.name, ratio };
     });
+  }
 
-    function buildRadios(containerId, name, defaultValue = 3) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = '';
-      for (let i=1;i<=5;i++){
-        const id = `${name}-${i}`;
-        const radio = document.createElement('input');
-        radio.type = 'radio'; radio.name = name; radio.value = String(i);
-        radio.id = id; radio.className = 'sr-only rating-radio';
-        if (i===defaultValue) radio.checked = true;
-
-        const label = document.createElement('label');
-        label.setAttribute('for', id);
-        label.className = 'inline-flex items-center justify-center w-12 h-12 mx-1 rounded-xl border dark:border-gray-700 cursor-pointer select-none transition-colors';
-        label.textContent = i;
-        label.setAttribute('aria-hidden','true');
-
-        radio.addEventListener('change', () => {
-          $(`#${name}Val`).textContent = i;
-          Array.from(container.querySelectorAll('label')).forEach(l=>l.classList.remove('bg-indigo-50','dark:bg-indigo-800','border-indigo-400'));
-          label.classList.add('bg-indigo-50','dark:bg-indigo-800','border-indigo-400');
-        });
-
-        container.appendChild(radio);
-        container.appendChild(label);
-
-        if (i===defaultValue) label.classList.add('bg-indigo-50','dark:bg-indigo-800','border-indigo-400');
-      }
+  function normalizeIngredients(adjusted) {
+    const total = adjusted.reduce((sum, a) => sum + a.ratio, 0);
+    if (total === 0) {
+      return adjusted.map(a => ({ name: a.name, percent: 0 }));
     }
+    let raw = adjusted.map(a => ({ name: a.name, rawPercent: (a.ratio / total) * 100 }));
+    let intParts = raw.map(r => Math.floor(r.rawPercent));
+    let remainder = 100 - intParts.reduce((s,n) => s + n, 0);
+    const withFraction = raw.map((r, idx) => ({ idx, frac: r.rawPercent - Math.floor(r.rawPercent) }))
+                           .sort((a,b) => b.frac - a.frac);
+    for (let i=0;i<remainder;i++) {
+      intParts[withFraction[i].idx] += 1;
+    }
+    return intParts.map((p, i) => ({ name: adjusted[i].name, percent: p }));
+  }
 
+  function chooseVariant(scores, allergies) {
+    const { energy, focus, mood } = scores;
+    let choice = VARIANTS[0];
+    if (energy <= 2 && energy < focus && energy < mood) choice = VARIANTS[2];
+    else if (focus <= 2 && focus <= mood) choice = VARIANTS[0];
+    else if (mood <= 2 && mood < focus) choice = VARIANTS[1];
+    else {
+      const min = Math.min(energy, focus, mood);
+      if (min === energy) choice = VARIANTS[2];
+      else if (min === focus) choice = VARIANTS[0];
+      else choice = VARIANTS[1];
+    }
+    const adjusted = adjustIngredients(choice.ingredients, allergies, scores);
+    const normalized = normalizeIngredients(adjusted);
+    const finalIngredients = normalized.map(n => {
+      const adj = adjusted.find(a => a.name === n.name);
+      if (adj && adj.ratio === 0) {
+        return { name: n.name, percent: 0, removed: true };
+      } else {
+        return { name: n.name, percent: n.percent, removed: false };
+      }
+    });
+    return { variant: choice, ingredients: finalIngredients };
+  }
+
+  function getFormValues() {
+    const checked = Array.from(form.querySelectorAll('input[name="allergies"]:checked')).map(i=>i.value);
+    const allergies = checked.includes('none') ? [] : checked;
+    const energy = Number(form.querySelector('input[name="energy"]:checked').value);
+    const focus = Number(form.querySelector('input[name="focus"]:checked').value);
+    const mood = Number(form.querySelector('input[name="mood"]:checked').value);
+    return { allergies, scores: {energy, focus, mood} };
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    try {
+      const { allergies, scores } = getFormValues();
+      if (allergies.includes('none') && allergies.length > 1) {
+        alert('If you selected "No allergies", please uncheck other allergy boxes.');
+        return;
+      }
+      displayRecommendation(scores, allergies);
+    } catch (err) {
+      alert('Please complete the form (choose ratings and confirm allergy choices).');
+      renderIngredientCalculator(ingredients);
+
+    }
+  });
+
+  $('#resetBtn').addEventListener('click', () => {
+    form.reset();
     buildRadios('energyRadios','energy',3);
     buildRadios('focusRadios','focus',3);
     buildRadios('moodRadios','mood',3);
+    result.classList.add('hidden');
+  });
 
-    const form = $('#mixForm');
-    const result = $('#result');
-
-    const VARIANTS = [
-      {
-        id: 'brain-boost',
-        name: 'Brain Boost',
-        ingredients: ['Rolled oats','Almonds (or sunflower seeds)','Dark chocolate (or carob)','Dried blueberries'],
-        reason: 'Higher focus needs + antioxidants to support cognitive performance.'
-      },
-      {
-        id: 'calm-focus',
-        name: 'Calm Focus',
-        ingredients: ['Rolled oats','Cashews (or sunflower seeds)','Dried cranberries','A pinch of matcha (optional)'],
-        reason: 'Support for stress reduction and sustained attention with magnesium and healthy fats.'
-      },
-      {
-        id: 'energy-kick',
-        name: 'Energy Kick',
-        ingredients: ['Rolled oats','Mixed seeds','Dried fruit mix','Small dark chocolate pieces (optional)'],
-        reason: 'Quick sense of energy from natural sugars and slow-release oats for longer support.'
+  function renderIngredients(ingredients) {
+    $('#variantIngredients').innerHTML = '';
+    ingredients.forEach(i => {
+      const li = document.createElement('li');
+      if (i.removed || i.percent === 0) {
+        li.textContent = `[${i.name.split(' (')[0]} removed due to allergies]`;
+      } else {
+        li.textContent = `${i.name} — ${i.percent}% of mix`;
       }
-    ];
-
-    function chooseVariant(scores, allergies) {
-      const {energy, focus, mood} = scores;
-      let choice = VARIANTS[0];
-      if (energy <= 2 && energy < focus && energy < mood) choice = VARIANTS[2];
-      else if (focus <= 2 && focus <= mood) choice = VARIANTS[0];
-      else if (mood <= 2 && mood < focus) choice = VARIANTS[1];
-      else {
-        const min = Math.min(energy, focus, mood);
-        if (min === energy) choice = VARIANTS[2];
-        else if (min === focus) choice = VARIANTS[0];
-        else choice = VARIANTS[1];
-      }
-
-      let ingredients = choice.ingredients.map(i => i);
-      if (allergies.includes('nuts')) {
-        ingredients = ingredients.map(i => i.replace(/Almonds|Cashews|Nuts/gi,'Sunflower seeds'));
-      }
-      if (allergies.includes('chocolate')) {
-        ingredients = ingredients.map(i => i.replace(/Dark chocolate|chocolate/gi,'Carob chips'));
-      }
-      if (allergies.includes('driedfruit')) {
-        ingredients = ingredients.map(i => i.replace(/Dried blueberries|Dried cranberries|Dried fruit/gi,'Unsweetened apple bits'));
-      }
-      if (allergies.includes('matcha')) {
-        ingredients = ingredients.map(i => i.replace(/matcha|Matcha/gi,'(no caffeine)'));
-      }
-
-      return { variant: choice, ingredients };
-    }
-
-    function getFormValues() {
-      const checked = Array.from(form.querySelectorAll('input[name="allergies"]:checked')).map(i=>i.value);
-      const allergies = checked.includes('none') ? [] : checked;
-      const energy = Number(form.querySelector('input[name="energy"]:checked').value);
-      const focus = Number(form.querySelector('input[name="focus"]:checked').value);
-      const mood = Number(form.querySelector('input[name="mood"]:checked').value);
-      return { allergies, scores: {energy, focus, mood} };
-    }
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      try {
-        const { allergies, scores } = getFormValues();
-        if (allergies.includes('none') && allergies.length > 1) {
-          alert('If you selected "No allergies", please uncheck other allergy boxes.');
-          return;
-        }
-        displayRecommendation(scores, allergies);
-      } catch (err) {
-        alert('Please complete the form (choose ratings and confirm allergy choices).');
-      }
+      $('#variantIngredients').appendChild(li);
     });
+  }
 
-    $('#resetBtn').addEventListener('click', () => {
-      form.reset();
-      buildRadios('energyRadios','energy',3);
-      buildRadios('focusRadios','focus',3);
-      buildRadios('moodRadios','mood',3);
-      result.classList.add('hidden');
-    });
+  function displayRecommendation(scores, allergies) {
+    const { variant, ingredients } = chooseVariant(scores, allergies);
+    $('#variantName').textContent = variant.name;
+    $('#variantIngredients').innerHTML = '';
+    renderIngredients(ingredients);
 
-    function displayRecommendation(scores, allergies) {
-      const { variant, ingredients } = chooseVariant(scores, allergies);
-      $('#variantName').textContent = variant.name;
-      $('#variantIngredients').innerHTML = '';
-      ingredients.forEach(i => {
-        const li = document.createElement('li'); li.textContent = i; $('#variantIngredients').appendChild(li);
-      });
+    const removedList = ingredients.filter(i => i.removed).map(i => i.name.split(' (')[0]);
+
+    if (removedList.length > 0) {
+      $('#variantWhy').innerHTML = `${variant.reason}<br><strong>Note:</strong> ${removedList.join(', ')} removed due to allergies.`;
+    } else {
       $('#variantWhy').textContent = variant.reason;
-      $('#resultReason').textContent = `Based on your ratings (Energy: ${scores.energy}, Focus: ${scores.focus}, Mood: ${scores.mood}) and allergy choices, here is a recommended mix.`;
-      result.classList.remove('hidden');
-
-      $('#copyBtn').onclick = () => {
-        const text = `${variant.name}\nIngredients:\n- ${ingredients.join('\n- ')}`;
-        navigator.clipboard?.writeText(text).then(()=>alert('Recipe copied to clipboard.'));
-      };
-
-      $('#saveBtn').onclick = () => {
-        saveLocalResult({timestamp: Date.now(), scores, allergies, variant: variant.id});
-        renderSummary();
-        alert('Saved locally.');
-      };
-
-      renderSummary();
     }
 
-    const STORAGE_KEY = 'focusmix-data-v1';
-    function loadLocalData() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        return raw ? JSON.parse(raw) : [];
-      } catch (e) { return []; }
-    }
-    function saveLocalResult(entry) {
-      const data = loadLocalData();
-      data.push(entry);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    }
-    function clearLocalData() {
-      localStorage.removeItem(STORAGE_KEY);
-      renderSummary();
-    }
+    $('#resultReason').textContent =
+      `Based on your ratings (Energy: ${scores.energy}, Focus: ${scores.focus}, Mood: ${scores.mood}) and allergy choices, here is a recommended mix.`;
 
-    function renderSummary() {
-      const data = loadLocalData();
-      if (data.length === 0) {
-        $('#summaryArea').innerHTML = '<div class="text-sm text-gray-500">No saved entries yet. Use "Save to local data" after getting a recommendation.</div>';
-        return;
-      }
-      const avg = data.reduce((acc,d)=>{ acc.energy+=d.scores.energy; acc.focus+=d.scores.focus; acc.mood+=d.scores.mood; return acc; },{energy:0,focus:0,mood:0});
-      avg.energy = (avg.energy / data.length).toFixed(2);
-      avg.focus = (avg.focus / data.length).toFixed(2);
-      avg.mood = (avg.mood / data.length).toFixed(2);
+    result.classList.remove('hidden');
 
-      const counts = {};
-      data.forEach(d=> counts[d.variant] = (counts[d.variant]||0)+1);
-      const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-      const mostCommon = sorted[0] ? sorted[0][0] : '—';
-      const variantName = VARIANTS.find(v=>v.id===mostCommon)?.name || 'Mixed';
+    $('#copyBtn').onclick = () => {
+      const text = `${variant.name}\nIngredients:\n- ${ingredients.map(i => i.removed ? `[${i.name.split(' (')[0]} removed due to allergies]` : `${i.name} — ${i.percent}%`).join('\n- ')}`;
+      navigator.clipboard?.writeText(text).then(() =>
+        alert('Recipe copied to clipboard.')
+      );
+    };
 
-      $('#mostCommon').innerHTML = `<strong>Most recommended mix:</strong> ${variantName} (${counts[mostCommon] || 0} participants)`;
-      $('#avgScores').innerHTML = `<strong>Average ratings:</strong> Energy ${avg.energy} · Focus ${avg.focus} · Mood ${avg.mood} (from ${data.length} entries)`;
-      $('#clearData').onclick = () => { if (confirm('Clear local saved data?')) clearLocalData(); };
-    }
+    renderIngredientCalculator(ingredients);
 
+    saveLocalResult({
+      timestamp: Date.now(),
+      scores,
+      allergies,
+      variant: variant.id
+    });
+  }
+
+  const STORAGE_KEY = 'focusmix-data-v1';
+  function loadLocalData() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+  function saveLocalResult(entry) {
+    const data = loadLocalData();
+    data.push(entry);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+  function clearLocalData() {
+    localStorage.removeItem(STORAGE_KEY);
     renderSummary();
+  }
 
-    const backToTop = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 200) {
-        backToTop.classList.remove('hidden');
-      } else {
-        backToTop.classList.add('hidden');
+  function renderSummary() {
+    const data = loadLocalData();
+    if (data.length === 0) {
+      $('#summaryArea').innerHTML = '<div class="text-sm text-gray-500">No saved entries yet.</div>';
+      return;
+    }
+    const avg = data.reduce((acc,d)=>{ acc.energy+=d.scores.energy; acc.focus+=d.scores.focus; acc.mood+=d.scores.mood; return acc; },{energy:0,focus:0,mood:0});
+    avg.energy = (avg.energy / data.length).toFixed(2);
+    avg.focus = (avg.focus / data.length).toFixed(2);
+    avg.mood = (avg.mood / data.length).toFixed(2);
+    const counts = {};
+    data.forEach(d=> counts[d.variant] = (counts[d.variant]||0)+1);
+    const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    const mostCommon = sorted[0] ? sorted[0][0] : '—';
+    const variantName = VARIANTS.find(v=>v.id===mostCommon)?.name || 'Mixed';
+    $('#mostCommon').innerHTML = `<strong>Most recommended mix:</strong> ${variantName} (${counts[mostCommon] || 0} participants)`;
+    $('#avgScores').innerHTML = `<strong>Average ratings:</strong> Energy ${avg.energy} · Focus ${avg.focus} · Mood ${avg.mood} (from ${data.length} entries)`;
+  }
+
+  renderSummary();
+
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 200) {
+      backToTop.classList.remove('hidden');
+    } else {
+      backToTop.classList.add('hidden');
+    }
+  });
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  const noAllergies = document.getElementById("noAllergies");
+  const allergyOptions = document.querySelectorAll("input.allergy");
+
+  noAllergies.addEventListener("change", () => {
+    if (noAllergies.checked) {
+      allergyOptions.forEach(opt => opt.checked = false);
+    }
+  });
+
+  allergyOptions.forEach(opt => {
+    opt.addEventListener("change", () => {
+      if (opt.checked) {
+        noAllergies.checked = false;
       }
     });
-    backToTop.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+  });
 
-    const noAllergies = document.getElementById("noAllergies");
-    const allergyOptions = document.querySelectorAll("input.allergy");
+  const submitBtn = document.getElementById("submitBtn");
+  const allergyNotice = document.getElementById("allergyNotice");
 
-    noAllergies.addEventListener("change", function () {
-      if (this.checked) {
-        allergyOptions.forEach(opt => {
-          opt.checked = false;
-          opt.disabled = true;
-        });
-      } else {
-        allergyOptions.forEach(opt => opt.disabled = false);
-      }
-    });
+  function validateAllergies() {
+    const checked = Array.from(document.querySelectorAll('input[name="allergies"]:checked'));
+    if (checked.length === 0) {
+      submitBtn.disabled = true;
+      allergyNotice.classList.remove("hidden");
+      return false;
+    }
+    if (checked.some(c => c.value === "none") && checked.length > 1) {
+      submitBtn.disabled = true;
+      allergyNotice.textContent = "Please choose either 'No allergies' or specific allergies, not both.";
+      allergyNotice.classList.remove("hidden");
+      return false;
+    }
+    submitBtn.disabled = false;
+    allergyNotice.classList.add("hidden");
+    allergyNotice.textContent = "Please complete the allergy screening to continue.";
+    return true;
+  }
 
-    allergyOptions.forEach(opt => {
-      opt.addEventListener("change", function () {
-        if (this.checked) {
-          noAllergies.checked = false;
-        }
+  validateAllergies();
+  $$('input[name="allergies"]').forEach(input => {
+    input.addEventListener("change", validateAllergies);
+  });
+
+  function renderIngredientCalculator(ingredients) {
+    const container = document.getElementById("ingredientCalculator");
+    container.innerHTML = "";
+
+    const inputWrapper = document.createElement("div");
+    inputWrapper.className = "mb-4";
+    const label = document.createElement("label");
+    label.className = "block text-sm font-medium mb-1";
+    label.textContent = "Serving size (grams)";
+    const input = document.createElement("input");
+    input.type = "number";
+    input.min = "1";
+    input.value = 35; // default serving size
+    input.className = "w-28 p-2 border rounded bg-white text-gray-900 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500";
+    inputWrapper.appendChild(label);
+    inputWrapper.appendChild(input);
+    container.appendChild(inputWrapper);
+
+    const table = document.createElement("table");
+    table.className = "min-w-full text-sm border-collapse";
+    const thead = document.createElement("thead");
+    thead.innerHTML = `
+      <tr class="border-b">
+        <th class="text-left p-2">Ingredient</th>
+        <th class="text-left p-2">Percent</th>
+        <th class="text-left p-2">Grams</th>
+      </tr>`;
+    table.appendChild(thead);
+    const tbody = document.createElement("tbody");
+    table.appendChild(tbody);
+    container.appendChild(table);
+
+    function updateTable() {
+      const serving = parseFloat(input.value) || 35;
+      tbody.innerHTML = "";
+      ingredients.forEach(i => {
+        const grams = (i.percent / 100) * serving;
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td class="p-2">${i.removed ? `[${i.name.split(' (')[0]} removed]` : i.name}</td>
+          <td class="p-2">${i.percent}%</td>
+          <td class="p-2">${i.removed ? "—" : grams.toFixed(1)} g</td>
+        `;
+        tbody.appendChild(row);
       });
-    });
 
-    const submitBtn = document.getElementById("submitBtn");
-    const allergyNotice = document.getElementById("allergyNotice");
-
-    function validateAllergies() {
-      const checked = Array.from(document.querySelectorAll('input[name="allergies"]:checked'));
-      
-      if (checked.length === 0) {
-        submitBtn.disabled = true;
-        allergyNotice.classList.remove("hidden");
-        return false;
-      }
-
-      if (checked.some(c => c.value === "none") && checked.length > 1) {
-        submitBtn.disabled = true;
-        allergyNotice.textContent = "Please choose either 'No allergies' or specific allergies, not both.";
-        allergyNotice.classList.remove("hidden");
-        return false;
-      }
-
-      submitBtn.disabled = false;
-      allergyNotice.classList.add("hidden");
-      allergyNotice.textContent = "Please complete the allergy screening to continue.";
-      return true;
+      const totalRow = document.createElement("tr");
+      totalRow.className = "font-semibold border-t";
+      totalRow.innerHTML = `
+        <td class="p-2">Total</td>
+        <td class="p-2">100%</td>
+        <td class="p-2">${serving.toFixed(1)} g</td>
+      `;
+      tbody.appendChild(totalRow);
     }
 
-    validateAllergies();
-    $$('input[name="allergies"]').forEach(input => {
-      input.addEventListener("change", validateAllergies);
-    });
-  </script>
+    updateTable();
+    input.addEventListener("input", updateTable);
+  }
+
+  function downloadCSV() {
+    const data = loadLocalData();
+    if (data.length === 0) {
+      alert("No data saved yet.");
+      return;
+    }
+    const headers = ["Timestamp","Energy","Focus","Mood","Allergies","Variant"];
+    const rows = data.map(d => [
+      new Date(d.timestamp).toISOString(),
+      d.scores.energy,
+      d.scores.focus,
+      d.scores.mood,
+      d.allergies.join("|"),
+      d.variant
+    ]);
+    const csv = [headers, ...rows]
+    .map(r => r.map(val => `"${val}"`).join(","))
+    .join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "nutrimix-data.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  $('#downloadCSV').onclick = downloadCSV;
+  $('#clearData').onclick = () => {
+    if (confirm('Clear local saved data?')) clearLocalData();
+  };
+</script>
 </body>
 </html>
