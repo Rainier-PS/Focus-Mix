@@ -98,37 +98,45 @@
 
       <form id="mixForm" class="mt-6 grid gap-6" novalidate>
         <fieldset class="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl" aria-labelledby="allergyLegend">
-          <h3 id="allergyLegend" class="text-lg font-medium mb-2">
-            Allergy screening 
-            <span class="text-sm text-gray-500 dark:text-gray-400">(required)</span>
-          </h3>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-            Please check any you are allergic to. If you are allergic to any ingredient listed, we will offer a safe alternative.
+        <h3 id="allergyLegend" class="text-lg font-medium mb-2">
+          Allergy screening 
+          <span class="text-sm text-gray-500 dark:text-gray-400">(required)</span>
+        </h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          Please check any allergens you may have. Optional flavor items are considered separately.
+        </p>
+
+        <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <label class="inline-flex items-center gap-2">
+            <input type="checkbox" name="allergies" value="nuts" class="allergy h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
+            <span>Nuts (almonds, cashews)</span>
+          </label>
+          <label class="inline-flex items-center gap-2">
+            <input type="checkbox" name="allergies" value="chocolate" class="allergy h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
+            <span>Chocolate</span>
+          </label>
+          <label class="inline-flex items-center gap-2">
+            <input type="checkbox" name="allergies" value="driedfruit" class="allergy h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
+            <span>Dried fruit</span>
+          </label>
+          <label class="inline-flex items-center gap-2">
+            <input type="checkbox" name="allergies" value="gluten" class="allergy h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
+            <span>Gluten / Wheat</span>
+          </label>
+          <label class="inline-flex items-center gap-2">
+            <input type="checkbox" name="allergies" value="dairy" class="allergy h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
+            <span>Cheese / Dairy</span>
+          </label>
+          <label class="inline-flex items-center gap-2">
+            <input type="checkbox" id="noAllergies" name="allergies" value="none" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
+            <span>No allergies</span>
+          </label>
+
+          <p id="allergyNotice" class="text-sm text-red-600 dark:text-red-400 mt-2 hidden">
+            *Please complete the allergy screening to continue.
           </p>
-
-          <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <label class="inline-flex items-center gap-2">
-              <input type="checkbox" name="allergies" value="nuts" class="allergy h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-              <span>Nuts (almonds, cashews)</span>
-            </label>
-            <label class="inline-flex items-center gap-2">
-              <input type="checkbox" name="allergies" value="chocolate" class="allergy h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-              <span>Chocolate</span>
-            </label>
-            <label class="inline-flex items-center gap-2">
-              <input type="checkbox" name="allergies" value="driedfruit" class="allergy h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-              <span>Dried fruit (cranberries)</span>
-            </label>
-            <label class="inline-flex items-center gap-2">
-              <input type="checkbox" id="noAllergies" name="allergies" value="none" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-              <span>No allergies</span>
-            </label>
-
-            <p id="allergyNotice" class="text-sm text-red-600 dark:text-red-400 mt-2 hidden">
-              *Please complete the allergy screening to continue.
-            </p>
-          </div>
-        </fieldset>
+        </div>
+      </fieldset>
 
         <fieldset class="p-4 bg-gray-50 dark:bg-gray-800 rounded-xl" aria-labelledby="ratingLegend">
           <h3 id="ratingLegend" class="font-medium">Quick self-rating</h3>
@@ -228,7 +236,7 @@
         </div>
       </div>
     </section>
-    <footer class="text-center text-xs text-gray-500 dark:text-gray-400 mt-4">Not medical advice! For demonstration and educational purposes.</footer>
+    <footer class="text-center text-xs text-gray-500 dark:text-gray-400 mt-4">Not medical advice! For demonstration and educational purposes only.</footer>
   </main>
 
   <button id="backToTop"
